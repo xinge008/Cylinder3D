@@ -6,7 +6,7 @@
 
 ## News
 - **2020-11** We preliminarily release the Cylinder3D--v0.1, supporting the LiDAR semantic segmentation on SemanticKITTI and nuScenes.
-- **2020-11** Our work achieves the **1st place** in the leaderboard of SemanticKITTI semantic segmentation (until CVPR2021 DDL, still rank 1st in term of Accuracy now), and based on the proposed method, we also achieve the **1st place** in the leaderboard of SemanticKITTI panoptic segmentation
+- **2020-11** Our work achieves the **1st place** in the leaderboard of SemanticKITTI semantic segmentation (until CVPR2021 DDL, still rank 1st in term of Accuracy now), and based on the proposed method, we also achieve the **1st place** in the leaderboard of SemanticKITTI panoptic segmentation.
 <p align="center">
         <img src="./img/leaderboard.png" width="40%"> 
 </p>
@@ -60,8 +60,8 @@
 ```
 
 ## Training
-1. modify the config/semantickitti.yaml with your custom settings. We provide a sample yaml for SemanticKITTI
-2. train the network by running "sh train.sh"
+1. modify the config/semantickitti.yaml with your custom settings. We provide a sample yaml for SemanticKITTI.
+2. train the network by running "sh train.sh".
 
 
 ### Pretrained Models
