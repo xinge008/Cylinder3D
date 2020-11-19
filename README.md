@@ -71,7 +71,7 @@
 - [ ] Release pretrained model for nuScenes.
 - [ ] Support more models, including PolarNet, RandLA, SequeezeV3 and etc.
 - [ ] Support more datasets, including A2D2 and etc.  
-- [ ] Integrate LiDAR Panotic Segmentation into the codebase.
+- [ ] Integrate LiDAR Panoptic Segmentation into the codebase.
 
 ## Acknowledgments
 We thanks for the opensource codebases, [PolarSeg](https://github.com/edwardzhou130/PolarSeg)  and [SPVNAS](https://github.com/mit-han-lab/e3d)
