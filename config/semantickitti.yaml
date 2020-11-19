@@ -1,0 +1,68 @@
+# Config format schema number
+format_version: 4
+
+###################
+## Model options
+model_params:
+  model_architecture: "cylinder_asym"
+
+  output_shape:
+    - 480
+    - 360
+    - 32
+
+  fea_dim: 9
+  out_fea_dim: 256
+  num_class: 20
+  num_input_features: 16
+  use_norm: True
+  init_size: 32
+
+
+###################
+## Dataset options
+dataset_params:
+  dataset_type: "cylinder_dataset"
+  pc_dataset_type: "SemKITTI_sk"
+  ignore_label: 0
+  return_test: False
+  fixed_volume_space: True
+  label_mapping: "./config/label_mapping/semantic-kitti.yaml"
+  max_volume_space:
+    - 50
+    - 3.1415926
+    - 2
+  min_volume_space:
+    - 0
+    - -3.1415926
+    - -4
+
+
+###################
+## Data_loader options
+train_data_loader:
+  data_path: "/data/dataset/semantic_kitti/data_semkitti/dataset"
+  imageset: "train"
+  return_ref: True
+  batch_size: 2
+  shuffle: True
+  num_workers: 4
+
+val_data_loader:
+  data_path: "/data/dataset/semantic_kitti/data_semkitti/dataset"
+  imageset: "val"
+  return_ref: True
+  batch_size: 1
+  shuffle: False
+  num_workers: 4
+
+
+###################
+## Train params
+train_params:
+  model_load_path: "./model_load_dir/model_load.pt"
+  model_save_path: "./model_save_dir/model_save.pt"
+  checkpoint_every_n_steps: 4599
+  max_num_epochs: 40
+  eval_every_n_steps: 4599
+  learning_rate: 0.001
