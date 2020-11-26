@@ -19,7 +19,7 @@
 - Cython
 - [torch-scatter](https://github.com/rusty1s/pytorch_scatter)
 - [nuScenes-devkit](https://github.com/nutonomy/nuscenes-devkit) (optional for nuScenes)
-- [spconv](https://github.com/traveller59/spconv)
+- [spconv](https://github.com/traveller59/spconv) (tested with spconv==1.2.1 and cuda==10.2)
 
 ## Data Preparation
 
