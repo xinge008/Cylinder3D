@@ -57,6 +57,7 @@
 		├──sweeps
 		├──maps
 
+		
 ```
 
 ## Training
@@ -72,6 +73,21 @@
 - [ ] Support more models, including PolarNet, RandLA, SequeezeV3 and etc.
 - [ ] Support more datasets, including A2D2 and etc.  
 - [ ] Integrate LiDAR Panoptic Segmentation into the codebase.
+
+
+## Reference
+
+If you find our work useful in your research, please consider citing our paper:
+```
+@article{zhu2020cylindrical,
+  title={Cylindrical and Asymmetrical 3D Convolution Networks for LiDAR Segmentation},
+  author={Zhu, Xinge and Zhou, Hui and Wang, Tai and Hong, Fangzhou and Ma, Yuexin and Li, Wei and Li, Hongsheng and Lin, Dahua},
+  journal={arXiv preprint arXiv:2011.10033},
+  year={2020}
+}
+
+```
+
 
 ## Acknowledgments
 We thanks for the opensource codebases, [PolarSeg](https://github.com/edwardzhou130/PolarSeg)  and [SPVNAS](https://github.com/mit-han-lab/e3d)
