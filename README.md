@@ -86,8 +86,15 @@ If you find our work useful in your research, please consider citing our paper:
   year={2020}
 }
 
+#for LiDAR panoptic segmentation
+@article{hong2020lidar,
+  title={LiDAR-based Panoptic Segmentation via Dynamic Shifting Network},
+  author={Hong, Fangzhou and Zhou, Hui and Zhu, Xinge and Li, Hongsheng and Liu, Ziwei},
+  journal={arXiv preprint arXiv:2011.11964},
+  year={2020}
+}
 ```
 
 
 ## Acknowledgments
-We thanks for the opensource codebases, [PolarSeg](https://github.com/edwardzhou130/PolarSeg)  and [SPVNAS](https://github.com/mit-han-lab/e3d)
+We thanks for the opensource codebases, [PolarSeg](https://github.com/edwardzhou130/PolarSeg), [spconv](https://github.com/traveller59/spconv) and [SPVNAS](https://github.com/mit-han-lab/e3d)
