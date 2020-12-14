@@ -69,6 +69,7 @@ Please refer to [NUSCENES-GUIDE](./NUSCENES-GUIDE.md)
 
 ### Pretrained Models
 -- We provide a pretrained model for SemanticKITTI [LINK1](https://drive.google.com/file/d/1q4u3LlQXz89LqYW3orXL5oTs_4R2eS8P/view?usp=sharing) or [LINK2](https://pan.baidu.com/s/1c0oIL2QTTcjCo9ZEtvOIvA) (access code: xqmi)
+
 -- For nuScenes dataset, please refer to [NUSCENES-GUIDE](./NUSCENES-GUIDE.md)
 
 ## TODO List
