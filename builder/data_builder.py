@@ -21,10 +21,15 @@ def build(dataset_config,
 
     SemKITTI = get_pc_model_class(dataset_config['pc_dataset_type'])
 
-    train_pt_dataset = SemKITTI(data_path + '/sequences/', imageset=train_imageset,
-                                return_ref=train_ref, label_mapping=label_mapping)
-    val_pt_dataset = SemKITTI(data_path + '/sequences/', imageset=val_imageset,
-                              return_ref=val_ref, label_mapping=label_mapping)
+    nusc=None
+    if "nusc" in dataset_config['pc_dataset_type']:
+        from nuscenes import NuScenes
+        nusc = NuScenes(version='v1.0-trainval', dataroot=data_path, verbose=True)
+
+    train_pt_dataset = SemKITTI(data_path, imageset=train_imageset,
+                                return_ref=train_ref, label_mapping=label_mapping, nusc=nusc)
+    val_pt_dataset = SemKITTI(data_path, imageset=val_imageset,
+                              return_ref=val_ref, label_mapping=label_mapping, nusc=nusc)
 
     train_dataset = get_model_class(dataset_config['dataset_type'])(
         train_pt_dataset,

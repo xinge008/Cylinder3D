@@ -5,11 +5,12 @@
 ![img|center](./img/pipeline.png)
 
 ## News
+- **2020-12 [NEW:fire:]** Cylinder3D achieves the 2nd place in the challenge of nuScenes LiDAR segmentation, with mIoU=0.779, fwIoU=0.899 and FPS=10Hz.
+- **2020-12 [NEW:fire:]** We release the new version of Cylinder3D with nuScenes dataset support.
 - **2020-11** We preliminarily release the Cylinder3D--v0.1, supporting the LiDAR semantic segmentation on SemanticKITTI and nuScenes.
 - **2020-11** Our work achieves the **1st place** in the leaderboard of SemanticKITTI semantic segmentation (until CVPR2021 DDL, still rank 1st in term of Accuracy now), and based on the proposed method, we also achieve the **1st place** in the leaderboard of SemanticKITTI panoptic segmentation.
-<p align="center">
-        <img src="./img/leaderboard.png" width="40%"> 
-</p>
+
+![img|center](./img/leaderboard.png)
 
 ## Installation
 
@@ -19,7 +20,7 @@
 - Cython
 - [torch-scatter](https://github.com/rusty1s/pytorch_scatter)
 - [nuScenes-devkit](https://github.com/nutonomy/nuscenes-devkit) (optional for nuScenes)
-- [spconv](https://github.com/traveller59/spconv) (tested with spconv==1.2.1 and cuda==10.2)
+- [spconv](https://github.com/traveller59/spconv)
 
 ## Data Preparation
 
@@ -57,27 +58,28 @@
 		├──sweeps
 		├──maps
 
-		
 ```
 
 ## Training
-1. modify the config/semantickitti.yaml with your custom settings. We provide a sample yaml for SemanticKITTI.
-2. train the network by running "sh train.sh".
+1. modify the config/semantickitti.yaml with your custom settings. We provide a sample yaml for SemanticKITTI
+2. train the network by running "sh train.sh"
 
+### Training for nuScenes
+Please refer to [NUSCENES-GUIDE](./NUSCENES-GUIDE.md)
 
 ### Pretrained Models
 -- We provide a pretrained model for SemanticKITTI [LINK1](https://drive.google.com/file/d/1q4u3LlQXz89LqYW3orXL5oTs_4R2eS8P/view?usp=sharing) or [LINK2](https://pan.baidu.com/s/1c0oIL2QTTcjCo9ZEtvOIvA) (access code: xqmi)
+-- For nuScenes dataset, please refer to [NUSCENES-GUIDE](./NUSCENES-GUIDE.md)
 
 ## TODO List
-- [ ] Release pretrained model for nuScenes.
+- [x] Release pretrained model for nuScenes.
 - [ ] Support more models, including PolarNet, RandLA, SequeezeV3 and etc.
 - [ ] Support more datasets, including A2D2 and etc.  
-- [ ] Integrate LiDAR Panoptic Segmentation into the codebase.
-
+- [ ] Integrate LiDAR Panotic Segmentation into the codebase.
 
 ## Reference
 
-If you find our work useful in your research, please consider citing our paper:
+If you find our work useful in your research, please consider citing our [paper](https://arxiv.org/pdf/2011.10033):
 ```
 @article{zhu2020cylindrical,
   title={Cylindrical and Asymmetrical 3D Convolution Networks for LiDAR Segmentation},
@@ -86,8 +88,14 @@ If you find our work useful in your research, please consider citing our paper:
   year={2020}
 }
 
+#for LiDAR panoptic segmentation
+@article{hong2020lidar,
+  title={LiDAR-based Panoptic Segmentation via Dynamic Shifting Network},
+  author={Hong, Fangzhou and Zhou, Hui and Zhu, Xinge and Li, Hongsheng and Liu, Ziwei},
+  journal={arXiv preprint arXiv:2011.11964},
+  year={2020}
+}
 ```
 
-
 ## Acknowledgments
-We thanks for the opensource codebases, [PolarSeg](https://github.com/edwardzhou130/PolarSeg)  and [SPVNAS](https://github.com/mit-han-lab/e3d)
+We thanks for the opensource codebases, [PolarSeg](https://github.com/edwardzhou130/PolarSeg) and [spconv](https://github.com/traveller59/spconv)
