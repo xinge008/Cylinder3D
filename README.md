@@ -12,7 +12,7 @@
 
 <p align="center">
         < img src="./img/leaderboard.png" width="50%"> 
-</p >
+</p>
 
 ## Installation
 
