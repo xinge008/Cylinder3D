@@ -11,7 +11,7 @@
 - **2020-11** Our work achieves the **1st place** in the leaderboard of SemanticKITTI semantic segmentation (until CVPR2021 DDL, still rank 1st in term of Accuracy now), and based on the proposed method, we also achieve the **1st place** in the leaderboard of SemanticKITTI panoptic segmentation.
 
 <p align="center">
-        < img src="./img/leaderboard.png" width="50%"> 
+   <img src="./img/leaderboard.png" width="40%"> 
 </p>
 
 ## Installation
