@@ -9,6 +9,7 @@
 <p align="center">
    <img src="./img/leaderboard2.png" width="30%"> 
 </p>
+
 - **2020-12 [NEW:fire:]** Cylinder3D achieves the 2nd place in the challenge of nuScenes LiDAR segmentation, with mIoU=0.779, fwIoU=0.899 and FPS=10Hz.
 - **2020-12** We release the new version of Cylinder3D with nuScenes dataset support.
 - **2020-11** We preliminarily release the Cylinder3D--v0.1, supporting the LiDAR semantic segmentation on SemanticKITTI and nuScenes.
