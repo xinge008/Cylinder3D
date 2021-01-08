@@ -5,8 +5,12 @@
 ![img|center](./img/pipeline.png)
 
 ## News
+- **2021-1  [NEW:fire:]** Cylinder3D achieves the **1st place** in the leaderboard of SemanticKITTI **multiscan** semantic segmentation
+<p align="center">
+   <img src="./img/leaderboard2.png" width="30%"> 
+</p>
 - **2020-12 [NEW:fire:]** Cylinder3D achieves the 2nd place in the challenge of nuScenes LiDAR segmentation, with mIoU=0.779, fwIoU=0.899 and FPS=10Hz.
-- **2020-12 [NEW:fire:]** We release the new version of Cylinder3D with nuScenes dataset support.
+- **2020-12** We release the new version of Cylinder3D with nuScenes dataset support.
 - **2020-11** We preliminarily release the Cylinder3D--v0.1, supporting the LiDAR semantic segmentation on SemanticKITTI and nuScenes.
 - **2020-11** Our work achieves the **1st place** in the leaderboard of SemanticKITTI semantic segmentation (until CVPR2021 DDL, still rank 1st in term of Accuracy now), and based on the proposed method, we also achieve the **1st place** in the leaderboard of SemanticKITTI panoptic segmentation.
 
@@ -22,7 +26,7 @@
 - Cython
 - [torch-scatter](https://github.com/rusty1s/pytorch_scatter)
 - [nuScenes-devkit](https://github.com/nutonomy/nuscenes-devkit) (optional for nuScenes)
-- [spconv](https://github.com/traveller59/spconv)
+- [spconv](https://github.com/traveller59/spconv) (tested with spconv==1.2.1 and cuda==10.2)
 
 ## Data Preparation
 
@@ -76,8 +80,8 @@ Please refer to [NUSCENES-GUIDE](./NUSCENES-GUIDE.md)
 
 ## TODO List
 - [x] Release pretrained model for nuScenes.
+- [x] Support multiscan semantic segmentation.
 - [ ] Support more models, including PolarNet, RandLA, SequeezeV3 and etc.
-- [ ] Support more datasets, including A2D2 and etc.  
 - [ ] Integrate LiDAR Panotic Segmentation into the codebase.
 
 ## Reference
