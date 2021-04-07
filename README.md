@@ -80,6 +80,11 @@ Please refer to [NUSCENES-GUIDE](./NUSCENES-GUIDE.md)
 
 -- For nuScenes dataset, please refer to [NUSCENES-GUIDE](./NUSCENES-GUIDE.md)
 
+## Semantic segmentation demo for a folder of images
+```
+python demo_folder.py --demo-folder YOUR_FOLDER --save-folder YOUR_SAVE_FOLDER
+```
+
 ## TODO List
 - [x] Release pretrained model for nuScenes.
 - [x] Support multiscan semantic segmentation.
