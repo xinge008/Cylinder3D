@@ -28,14 +28,19 @@ warnings.filterwarnings("ignore")
 
 def build_dataset(dataset_config,
                   data_dir,
-                  grid_size=[480, 360, 32]):
+                  grid_size=[480, 360, 32],
+                  demo_label_dir=None):
 
+    if demo_label_dir == '':
+        imageset = "demo"
+    else:
+        imageset = "val"
     label_mapping = dataset_config["label_mapping"]
 
     SemKITTI_demo = get_pc_model_class('SemKITTI_demo')
 
-    demo_pt_dataset = SemKITTI_demo(data_dir, imageset="demo",
-                              return_ref=True, label_mapping=label_mapping, nusc=None)
+    demo_pt_dataset = SemKITTI_demo(data_dir, imageset=imageset,
+                              return_ref=True, label_mapping=label_mapping, demo_label_path=demo_label_dir)
 
     demo_dataset = get_model_class(dataset_config['dataset_type'])(
         demo_pt_dataset,
@@ -59,6 +64,7 @@ def main(args):
     configs = load_config_data(config_path)
     dataset_config = configs['dataset_params']
     data_dir = args.demo_folder
+    demo_label_dir = args.demo_label_folder
     save_dir = args.save_folder + "/"
 
     demo_batch_size = 1
@@ -84,7 +90,7 @@ def main(args):
     loss_func, lovasz_softmax = loss_builder.build(wce=True, lovasz=True,
                                                    num_class=num_class, ignore_label=ignore_label)
 
-    demo_dataset_loader = build_dataset(dataset_config, data_dir, grid_size=grid_size)
+    demo_dataset_loader = build_dataset(dataset_config, data_dir, grid_size=grid_size, demo_label_dir=demo_label_dir)
     with open(dataset_config["label_mapping"], 'r') as stream:
         semkittiyaml = yaml.safe_load(stream)
     inv_learning_map = semkittiyaml['learning_map_inv']
@@ -117,12 +123,27 @@ def main(args):
                 print("save " + outputPath)
             demo_loss_list.append(loss.detach().cpu().numpy())
 
+    if demo_label_dir != '':
+        my_model.train()
+        iou = per_class_iu(sum(hist_list))
+        print('Validation per class iou: ')
+        for class_name, class_iou in zip(unique_label_str, iou):
+            print('%s : %.2f%%' % (class_name, class_iou * 100))
+        val_miou = np.nanmean(iou) * 100
+        del demo_vox_label, demo_grid, demo_pt_fea, demo_grid_ten
+
+        print('Current val miou is %.3f' %
+              (val_miou))
+        print('Current val loss is %.3f' %
+              (np.mean(demo_loss_list)))
+
 if __name__ == '__main__':
     # Training settings
     parser = argparse.ArgumentParser(description='')
     parser.add_argument('-y', '--config_path', default='config/semantickitti.yaml')
     parser.add_argument('--demo-folder', type=str, default='', help='path to the folder containing demo lidar scans', required=True)
     parser.add_argument('--save-folder', type=str, default='', help='path to save your result', required=True)
+    parser.add_argument('--demo-label-folder', type=str, default='', help='path to the folder containing demo labels')
     args = parser.parse_args()
 
     print(' '.join(sys.argv))

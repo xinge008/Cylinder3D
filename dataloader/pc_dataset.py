@@ -28,14 +28,19 @@ def get_pc_model_class(name):
 @register_dataset
 class SemKITTI_demo(data.Dataset):
     def __init__(self, data_path, imageset='demo',
-                 return_ref=True, label_mapping="semantic-kitti.yaml", nusc=None):
+                 return_ref=True, label_mapping="semantic-kitti.yaml", demo_label_path=None):
         with open(label_mapping, 'r') as stream:
             semkittiyaml = yaml.safe_load(stream)
         self.learning_map = semkittiyaml['learning_map']
+        self.imageset = imageset
         self.return_ref = return_ref
 
         self.im_idx = []
         self.im_idx += absoluteFilePaths(data_path)
+        self.label_idx = []
+        if self.imageset == 'val':
+            print(demo_label_path)
+            self.label_idx += absoluteFilePaths(demo_label_path)
 
     def __len__(self):
         'Denotes the total number of samples'
@@ -43,7 +48,12 @@ class SemKITTI_demo(data.Dataset):
 
     def __getitem__(self, index):
         raw_data = np.fromfile(self.im_idx[index], dtype=np.float32).reshape((-1, 4))
-        annotated_data = np.expand_dims(np.zeros_like(raw_data[:, 0], dtype=int), axis=1)
+        if self.imageset == 'demo':
+            annotated_data = np.expand_dims(np.zeros_like(raw_data[:, 0], dtype=int), axis=1)
+        elif self.imageset == 'val':
+            annotated_data = np.fromfile(self.label_idx[index], dtype=np.uint32).reshape((-1, 1))
+            annotated_data = annotated_data & 0xFFFF  # delete high 16 digits binary
+            annotated_data = np.vectorize(self.learning_map.__getitem__)(annotated_data)
 
         data_tuple = (raw_data[:, :3], annotated_data.astype(np.uint8))
         if self.return_ref:
