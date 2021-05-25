@@ -80,6 +80,16 @@ Please refer to [NUSCENES-GUIDE](./NUSCENES-GUIDE.md)
 
 -- For nuScenes dataset, please refer to [NUSCENES-GUIDE](./NUSCENES-GUIDE.md)
 
+## Semantic segmentation demo for a folder of lidar scans
+```
+python demo_folder.py --demo-folder YOUR_FOLDER --save-folder YOUR_SAVE_FOLDER
+```
+If you want to validate with your own datasets, you need to provide labels.
+--demo-label-folder is optional
+```
+python demo_folder.py --demo-folder YOUR_FOLDER --save-folder YOUR_SAVE_FOLDER --demo-label-folder YOUR_LABEL_FOLDER
+```
+
 ## TODO List
 - [x] Release pretrained model for nuScenes.
 - [x] Support multiscan semantic segmentation.
