@@ -254,7 +254,7 @@ class cylinder_dataset(data.Dataset):
         # fixed
         # grid_ind = (np.floor((np.clip(xyz_pol, min_bound, max_bound) - min_bound) / intervals)).astype(np.int)
 
-        # triple
+        # triple (quadratic interval)
         #x_clip = np.clip(xyz_pol, min_bound, max_bound)
         #a = (cur_grid_size[0] - 1) / (triple_func(max_bound[0] - min_bound[0]))
         #tmp_y = a * triple_func(x_clip[:, 0] - min_bound[0])
@@ -263,7 +263,7 @@ class cylinder_dataset(data.Dataset):
         #grid_ind = np.concatenate((grid_ind1.reshape((grid_ind1.shape[0], 1)), grid_ind2), axis=1)
         ##################
         
-        #exponential
+        #exponential (exponential interval)
         x_clip = np.clip(xyz_pol, min_bound, max_bound)
         a = (cur_grid_size[0] - 1) / (ln_func(max_bound[0] + 1 - min_bound[0]))
         tmp_y = a * ln_func(x_clip[:, 0] + 1 - min_bound[0])
