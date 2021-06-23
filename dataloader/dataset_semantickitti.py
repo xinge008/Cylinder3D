@@ -16,6 +16,13 @@ import pickle
 
 REGISTERED_DATASET_CLASSES = {}
 
+# triple
+def triple_func(x):
+    return x ** (1/3)
+
+# ln
+def ln_func(x):
+    return np.log(x)
 
 def register_dataset(cls, name=None):
     global REGISTERED_DATASET_CLASSES
@@ -244,7 +251,26 @@ class cylinder_dataset(data.Dataset):
         intervals = crop_range / (cur_grid_size - 1)
 
         if (intervals == 0).any(): print("Zero interval!")
-        grid_ind = (np.floor((np.clip(xyz_pol, min_bound, max_bound) - min_bound) / intervals)).astype(np.int)
+        # fixed
+        # grid_ind = (np.floor((np.clip(xyz_pol, min_bound, max_bound) - min_bound) / intervals)).astype(np.int)
+
+        # triple
+        #x_clip = np.clip(xyz_pol, min_bound, max_bound)
+        #a = (cur_grid_size[0] - 1) / (triple_func(max_bound[0] - min_bound[0]))
+        #tmp_y = a * triple_func(x_clip[:, 0] - min_bound[0])
+        #grid_ind1 = (np.floor(tmp_y)).astype(np.int)
+        #grid_ind2 = (np.floor((x_clip[:, 1:] - min_bound[1:]) / ((max_bound[1:] - min_bound[1:]) / (cur_grid_size[1:] - 1)))).astype(np.int)
+        #grid_ind = np.concatenate((grid_ind1.reshape((grid_ind1.shape[0], 1)), grid_ind2), axis=1)
+        ##################
+        
+        #exponential
+        x_clip = np.clip(xyz_pol, min_bound, max_bound)
+        a = (cur_grid_size[0] - 1) / (ln_func(max_bound[0] + 1 - min_bound[0]))
+        tmp_y = a * ln_func(x_clip[:, 0] + 1 - min_bound[0])
+        grid_ind1 = (np.floor(tmp_y)).astype(np.int)
+        grid_ind2 = (np.floor((x_clip[:, 1:] - min_bound[1:]) / ((max_bound[1:] - min_bound[1:]) / (cur_grid_size[1:] - 1)))).astype(np.int)
+        grid_ind = np.concatenate((grid_ind1.reshape((grid_ind1.shape[0], 1)), grid_ind2), axis=1)
+        ######################
 
         voxel_position = np.zeros(self.grid_size, dtype=np.float32)
         dim_array = np.ones(len(self.grid_size) + 1, int)

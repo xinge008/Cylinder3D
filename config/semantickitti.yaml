@@ -62,7 +62,7 @@ val_data_loader:
 train_params:
   model_load_path: "./model_load_dir/model_load.pt"
   model_save_path: "./model_save_dir/model_save.pt"
-  checkpoint_every_n_steps: 4599
+  checkpoint_every_n_steps: 1932
   max_num_epochs: 40
-  eval_every_n_steps: 4599
+  eval_every_n_steps: 1932
   learning_rate: 0.001
