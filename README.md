@@ -118,6 +118,3 @@ If you find our work useful in your research, please consider citing our [paper]
 
 ## Acknowledgments
 We thanks for the opensource codebases, [PolarSeg](https://github.com/edwardzhou130/PolarSeg) and [spconv](https://github.com/traveller59/spconv)
-
-## Hiring from Zhouhui
-The SenseTime-LidarSegmentation is now hiring. If you are interested in internship, researcher and software engineer positions related to lidar segmentation or deep learning, feel free to send email: zhouhui@sensetime.com.
