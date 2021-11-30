@@ -40,13 +40,17 @@ RUN git am /hotfixes/0001-Allow-to-specifiy-CUDA_ROOT-directory-and-pick-corre.p
 RUN apt install -y libboost-all-dev cmake
 ENV CUDA_ROOT=/usr/local/cuda
 RUN pip3 install wheel
+WORKDIR /spconv/third_party
+RUN git clone https://github.com/pybind/pybind11.git
+WORKDIR /spconv
 RUN python3 setup.py bdist_wheel
 WORKDIR /spconv/dist
 RUN pip3 install *.whl
 
 ## Install Cylinder 3D
-RUN git clone --recursive --depth 1 https://github.com/xinge008/Cylinder3D 
-WORKDIR /cylinder3d
+WORKDIR /
+RUN git clone --recursive --depth 1 https://github.com/xinge008/Cylinder3D
+WORKDIR /Cylinder3D
 RUN chmod +x train_nusc.sh
 RUN mkdir -p /data/dataset/nuScenes
 
