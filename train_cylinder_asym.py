@@ -57,7 +57,8 @@ def main(args):
         my_model = load_checkpoint(model_load_path, my_model)
 
     my_model.to(pytorch_device)
-    optimizer = optim.Adam(my_model.parameters(), lr=train_hypers["learning_rate"])
+    optimizer = optim.AdamW(my_model.parameters(), lr=train_hypers["learning_rate"])        # AdamW contains weight decay
+    scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, train_hypers['max_num_epochs'])
 
     loss_func, lovasz_softmax = loss_builder.build(wce=True, lovasz=True,
                                                    num_class=num_class, ignore_label=ignore_label)
@@ -81,6 +82,8 @@ def main(args):
         # lr_scheduler.step(epoch)
         for i_iter, (_, train_vox_label, train_grid, _, train_pt_fea) in enumerate(train_dataset_loader):
             if global_iter % check_iter == 0 and epoch >= 1:
+                
+                # Evaluation set
                 my_model.eval()
                 hist_list = []
                 val_loss_list = []
@@ -105,6 +108,7 @@ def main(args):
                                                                 val_grid[count][:, 2]], val_pt_labs[count],
                                                             unique_label))
                         val_loss_list.append(loss.detach().cpu().numpy())
+                
                 my_model.train()
                 iou = per_class_iu(sum(hist_list))
                 print('Validation per class iou: ')
@@ -123,6 +127,7 @@ def main(args):
                 print('Current val loss is %.3f' %
                       (np.mean(val_loss_list)))
 
+            # Training set
             train_pt_fea_ten = [torch.from_numpy(i).type(torch.FloatTensor).to(pytorch_device) for i in train_pt_fea]
             # train_grid_ten = [torch.from_numpy(i[:,:2]).to(pytorch_device) for i in train_grid]
             train_vox_ten = [torch.from_numpy(i).to(pytorch_device) for i in train_grid]
@@ -134,6 +139,8 @@ def main(args):
                 outputs, point_label_tensor)
             loss.backward()
             optimizer.step()
+            # optimizer.step()
+
             loss_list.append(loss.item())
 
             if global_iter % 1000 == 0:
@@ -152,6 +159,7 @@ def main(args):
                           (epoch, i_iter, np.mean(loss_list)))
                 else:
                     print('loss error')
+        scheduler.step()    # Updates cosine annealing
         pbar.close()
         epoch += 1
 
