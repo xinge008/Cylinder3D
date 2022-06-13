@@ -13,7 +13,7 @@ All credit for this repositiory goes to the original authors of Cylinder3D, and 
 The weights with mIOU 63.5 can be downloaded [here](https://drive.google.com/drive/folders/1LBCRHz2VyeSz4M27GiqhoRuzlKyFvbo1?usp=sharing) and should be placed into the ./weights folder.
 
 ### Requirements
-The version number is not a requirement, rather the version I have used.
+The version number is not a requirement, rather the version I have used. I used Ubuntu 20.04 LTS.
 - Python 3.8
 - PyTorch == 1.11.0
 - yaml == 6.0
