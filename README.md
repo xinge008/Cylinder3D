@@ -5,6 +5,9 @@ This repository contains the retrained Cylinder3D Network on Semantic-KITTI usin
 
 ## Installation
 
+### Weights
+Weights can be downloaded [here](https://drive.google.com/drive/folders/1LBCRHz2VyeSz4M27GiqhoRuzlKyFvbo1?usp=sharing) and should be placed into the ./weights folder.
+
 ### Requirements
 - PyTorch >= 1.2 
 - yaml
