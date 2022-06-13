@@ -1,20 +1,31 @@
 ## Description
-[Spconv-V2](https://github.com/traveller59/spconv) made major changes to the convolution operation and how weights are read. [Spconv-V1](https://github.com/traveller59/spconv/tree/v1.2.1) is not supported anymore. For this reason an unsuccessfull effort was made to restructure the weights of Cylinder3D-spconv-V1 to spconv-V2, see [Issue](https://github.com/xinge008/Cylinder3D/issues/107).
+[Spconv-V2](https://github.com/traveller59/spconv) made major changes to the convolution operation and how weights are read. [Spconv-V1](https://github.com/traveller59/spconv/tree/v1.2.1) is not supported anymore. Following an unsuccessfull effort to restructure the weights, Cylinder3D was retrained on SemanticKITTI to produced new Spconv-v2 weights (FP32).
 
-This repository contains the retrained Cylinder3D Network on Semantic-KITTI using spconv-V2, based on the updated code by @min2209. All credit for this repositiory goes to the original authors of Cylinder3D, and additionally for the updated code in /network/segmentator_3d_asymm_spconv.py to @min2209. This repositiory was created to encourage further research and ease of use.
+This repository is forked from the [original implementation](https://github.com/xinge008/Cylinder3D), with the following major changes:
+- Network code updated to Spconv-V2. Credit here goes to the code by @min2209 in[Issue](https://github.com/xinge008/Cylinder3D/issues/107).
+- Changed training schedule to CosineAnnealingLR and the optimizer to AdamW with the default weight decay of 1e-2. This is because the validation results of the original authors could not be reproduced with their training script. mIOU in the retrained version is now 63.5 compared to 65.9 in the Paper. Its is likely that further improvements can be made with a more careful choice of hyperparameters when training.
+
+All credit for this repositiory goes to the original authors of Cylinder3D, and additionally for the updated code in /network/segmentator_3d_asymm_spconv.py to @min2209. This repositiory was created to encourage further research and ease of use.
 
 ## Installation
 
 ### Weights
-Weights can be downloaded [here](https://drive.google.com/drive/folders/1LBCRHz2VyeSz4M27GiqhoRuzlKyFvbo1?usp=sharing) and should be placed into the ./weights folder.
+The weights with mIOU 63.5 can be downloaded [here](https://drive.google.com/drive/folders/1LBCRHz2VyeSz4M27GiqhoRuzlKyFvbo1?usp=sharing) and should be placed into the ./weights folder.
 
 ### Requirements
-- PyTorch >= 1.2 
-- yaml
-- Cython
-- [torch-scatter](https://github.com/rusty1s/pytorch_scatter)
+The version number is not a requirement, rather the version I have used.
+- Python 3.8
+- PyTorch == 1.11.0
+- yaml == 6.0
+- strictyaml == 1.6.1
+- Cython == 0.29.30
+- tqdm == 4.64.0
+- [torch-scatter](https://github.com/rusty1s/pytorch_scatter) == cu113*
 - [nuScenes-devkit](https://github.com/nutonomy/nuscenes-devkit) (optional for nuScenes)
-- [spconv](https://github.com/traveller59/spconv) (tested with spconv==1.2.1 and cuda==10.2)
+- [spconv-cu113 == 2.1.22](https://github.com/traveller59/spconv) (different CUDA versions available)
+- numba == 0.55.2 (install last, as this will likely downgrade your numpy version automatically)
+
+*comment : There is a conda installation possibility. However I had trouble with the anaconda environment and CUDA. Instead I built this package outside of my virtual environment, in the base environment, then copied it manually into the virtual environment.
 
 ## Data Preparation
 
