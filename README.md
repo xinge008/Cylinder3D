@@ -5,13 +5,14 @@
 ![img|center](./img/pipeline.png)
 
 ## News
-- **2021-03 [NEW:fire:]** Cylinder3D is accepted to CVPR 2021 as an **Oral** presentation
-- **2021-01  [NEW:fire:]** Cylinder3D achieves the **1st place** in the leaderboard of SemanticKITTI **multiscan** semantic segmentation
+- **2022-06 [NEW:fire:]** **PVKD (CVPR2022)**, a lightweight Cylinder3D model with much higher performance has been released [here](https://github.com/cardwing/Codes-for-PVKD)
+-  Cylinder3D is accepted to CVPR 2021 as an **Oral** presentation
+-  Cylinder3D achieves the **1st place** in the leaderboard of SemanticKITTI **multiscan** semantic segmentation
 <p align="center">
    <img src="./img/leaderboard2.png" width="30%"> 
 </p>
 
-- **2020-12 [NEW:fire:]** Cylinder3D achieves the 2nd place in the challenge of nuScenes LiDAR segmentation, with mIoU=0.779, fwIoU=0.899 and FPS=10Hz.
+- Cylinder3D achieves the 2nd place in the challenge of nuScenes LiDAR segmentation, with mIoU=0.779, fwIoU=0.899 and FPS=10Hz.
 - **2020-12** We release the new version of Cylinder3D with nuScenes dataset support.
 - **2020-11** We preliminarily release the Cylinder3D--v0.1, supporting the LiDAR semantic segmentation on SemanticKITTI and nuScenes.
 - **2020-11** Our work achieves the **1st place** in the leaderboard of SemanticKITTI semantic segmentation (until CVPR2021 DDL, still rank 1st in term of Accuracy now), and based on the proposed method, we also achieve the **1st place** in the leaderboard of SemanticKITTI panoptic segmentation.
