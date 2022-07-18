@@ -9,8 +9,23 @@ All credit for this repositiory goes to the original authors of Cylinder3D, and 
 
 ## Installation
 
+### Issue
+Typo in converted model. This affects the context module and its weights, however barely affects performance. [Ref. Issue](https://github.com/xinge008/Cylinder3D/issues/107). This is not updated yet to maintain usability of the weights.
+```
+reaA = resA.replace_feature(self.bn1(resA.features)) should be: resA = resA.replace_feature(self.bn1(resA.features))
+```
+
 ### Weights
 The weights with mIOU 63.5 can be downloaded [here](https://drive.google.com/drive/folders/1LBCRHz2VyeSz4M27GiqhoRuzlKyFvbo1?usp=sharing) and should be placed into the ./weights folder.
+
+Weights are trained according to the original Cylinder3D, and not according to knowledge distillation.
+
+### Training
+- 40 epochs
+- 0.01 LR
+- AdamW with default Weight Decay 0.01
+- CosineDecay Schedule
+- Batch Size 2
 
 ### Requirements
 The version number is not a requirement, rather the version I have used. I used Ubuntu 20.04 LTS.
