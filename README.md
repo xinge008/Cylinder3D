@@ -7,16 +7,16 @@ This repository is forked from the [original implementation](https://github.com/
 
 All credit for this repositiory goes to the original authors of Cylinder3D, and additionally for the updated code in /network/segmentator_3d_asymm_spconv.py to @min2209. This repositiory was created to encourage further research and ease of use.
 
-## Installation
-
 ### Issue
-Typo in converted model. This affects the context module and its weights, however barely affects performance. [Ref. Issue](https://github.com/xinge008/Cylinder3D/issues/107). This is not updated yet to maintain usability of the weights.
+Typo in converted model. This affects the DDCM block and its weights, however barely affects performance. [Ref. Issue](https://github.com/xinge008/Cylinder3D/issues/107). This is not updated yet to maintain usability of the weights.
 ```
 reaA = resA.replace_feature(self.bn1(resA.features)) should be: resA = resA.replace_feature(self.bn1(resA.features))
 ```
 
+## Installation
+
 ### Weights
-The weights with mIOU 63.5 can be downloaded [here](https://drive.google.com/drive/folders/1LBCRHz2VyeSz4M27GiqhoRuzlKyFvbo1?usp=sharing) and should be placed into the ./network folder.
+The weights with mIOU 63.5 (Validation, vs 65.9 Original) can be downloaded [here](https://drive.google.com/drive/folders/1LBCRHz2VyeSz4M27GiqhoRuzlKyFvbo1?usp=sharing) and should be placed into the ./network folder.
 
 Weights are trained according to the original Cylinder3D, and not according to knowledge distillation (Cylinder3D PVKD).
 
