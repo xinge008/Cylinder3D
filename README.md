@@ -22,7 +22,7 @@ Weights are trained according to the original Cylinder3D, and not according to k
 
 ### Training
 - 40 epochs
-- 0.01 LR
+- 0.001 LR
 - AdamW with default Weight Decay 0.01
 - CosineDecay Schedule
 - Batch Size 2
