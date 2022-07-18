@@ -16,9 +16,9 @@ reaA = resA.replace_feature(self.bn1(resA.features)) should be: resA = resA.repl
 ```
 
 ### Weights
-The weights with mIOU 63.5 can be downloaded [here](https://drive.google.com/drive/folders/1LBCRHz2VyeSz4M27GiqhoRuzlKyFvbo1?usp=sharing) and should be placed into the ./weights folder.
+The weights with mIOU 63.5 can be downloaded [here](https://drive.google.com/drive/folders/1LBCRHz2VyeSz4M27GiqhoRuzlKyFvbo1?usp=sharing) and should be placed into the ./network folder.
 
-Weights are trained according to the original Cylinder3D, and not according to knowledge distillation.
+Weights are trained according to the original Cylinder3D, and not according to knowledge distillation (Cylinder3D++).
 
 ### Training
 - 40 epochs
