@@ -4,11 +4,13 @@
 - [Spconv 2.2](https://github.com/traveller59/spconv) (FP32 disabled by default, weight structure now only KRSC layout)
 
 ## Description
-[Spconv-V2](https://github.com/traveller59/spconv) made major changes to the convolution operation and how weights are read. [Spconv-V1](https://github.com/traveller59/spconv/tree/v1.2.1) is not supported anymore. Following an unsuccessfull effort to restructure the weights, Cylinder3D was retrained on SemanticKITTI to produced new Spconv-v2 weights (FP32). The new spconv version receives continued support and leads to signfificant speedups in training.
+[Spconv-V2](https://github.com/traveller59/spconv) made major changes to the convolution operation and how weights are read. [Spconv-V1](https://github.com/traveller59/spconv/tree/v1.2.1) is not supported anymore. Following an unsuccessfull effort to restructure the weights, Cylinder3D was retrained on SemanticKITTI to produced new Spconv-v2 weights (FP32). This repository is forked from the [original implementation](https://github.com/xinge008/Cylinder3D).
 
-This repository is forked from the [original implementation](https://github.com/xinge008/Cylinder3D), with the following major changes:
-- Network code updated to Spconv-V2. Credit here goes to the code by @min2209 in[Issue](https://github.com/xinge008/Cylinder3D/issues/107).
-- Changed training schedule to CosineAnnealingLR and the optimizer to AdamW with the default weight decay of 1e-2. This is because the validation results of the original authors could not be reproduced with their training script. mIOU in the retrained version is now 63.5 compared to 65.9 in the Paper. Its is likely that further improvements can be made with a more careful choice of hyperparameters when training.
+Note that the version released publicly by the authors if from their [first paper](https://arxiv.org/pdf/2008.01550.pdf) and does not include the pointwise refinement module. The mIOU of the retrained Spconv2 Version is 63.5, compared to 64.3 mIOU in page 7 in the paper. The implementation does not contain manual seeding. To achieve the 63.5 mIOU result, the training regimen had to be changed, as the Paper results could not be reproduced:
+- Network code updated to Spconv-V2. Credit here goes to the code by @min2209 in [Issue](https://github.com/xinge008/Cylinder3D/issues/107).
+- Changed training schedule to CosineAnnealingLR and the optimizer to AdamW with the default weight decay of 1e-2.
+
+It is likely that further improvements can be made with a more careful choice of hyperparameters when training.
 
 All credit for this repositiory goes to the original authors of Cylinder3D, and additionally for the updated code in /network/segmentator_3d_asymm_spconv.py to @min2209. This repositiory was created to encourage further research and ease of use.
 
