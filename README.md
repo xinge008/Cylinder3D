@@ -23,7 +23,7 @@ reaA = resA.replace_feature(self.bn1(resA.features)) should be: resA = resA.repl
 ## Installation
 
 ### Weights
-The weights with mIOU 63.5 (Validation, vs 65.9 Original) can be downloaded [here](https://drive.google.com/drive/folders/1LBCRHz2VyeSz4M27GiqhoRuzlKyFvbo1?usp=sharing) and should be placed into the ./network folder.
+The weights with mIOU 63.5 (Validation, vs 64.3 Original) can be downloaded [here](https://drive.google.com/drive/folders/1LBCRHz2VyeSz4M27GiqhoRuzlKyFvbo1?usp=sharing) and should be placed into the ./network folder.
 
 Weights are trained according to the original Cylinder3D, and not according to knowledge distillation (Cylinder3D PVKD).
 
@@ -91,33 +91,8 @@ The version number is not a requirement, rather the version I have used. I used 
 1. modify the config/semantickitti.yaml with your custom settings. We provide a sample yaml for SemanticKITTI
 2. train the network by running "sh train.sh"
 
-### Training for nuScenes
-Please refer to [NUSCENES-GUIDE](./NUSCENES-GUIDE.md)
-No pretrained weights available.
 
-### Pretrained Models
--- We provide a pretrained model for SemanticKITTI
-
-
-## Semantic segmentation demo for a folder of lidar scans
-```
-python demo_folder.py --demo-folder YOUR_FOLDER --save-folder YOUR_SAVE_FOLDER
-```
-If you want to validate with your own datasets, you need to provide labels.
---demo-label-folder is optional
-```
-python demo_folder.py --demo-folder YOUR_FOLDER --save-folder YOUR_SAVE_FOLDER --demo-label-folder YOUR_LABEL_FOLDER
-```
-
-## TODO List
-- [x] Release pretrained model for nuScenes.
-- [x] Support multiscan semantic segmentation.
-- [ ] Support more models, including PolarNet, RandLA, SequeezeV3 and etc.
-- [ ] Integrate LiDAR Panotic Segmentation into the codebase.
-
-## Reference
-
-If you find this work useful in your research, please consider citing the [paper](https://arxiv.org/pdf/2011.10033):
+If you find this work useful in your research, please consider citing the original authors [papers](https://arxiv.org/pdf/2011.10033):
 ```
 @article{zhu2020cylindrical,
   title={Cylindrical and Asymmetrical 3D Convolution Networks for LiDAR Segmentation},
