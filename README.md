@@ -1,5 +1,10 @@
+## TODO
+- Fix issue in converted network (see below)
+- Test with Cuda 11.6/11.7 support
+- [Spconv 2.2](https://github.com/traveller59/spconv) (FP32 disabled by default, weight structure now only KRSC layout)
+
 ## Description
-[Spconv-V2](https://github.com/traveller59/spconv) made major changes to the convolution operation and how weights are read. [Spconv-V1](https://github.com/traveller59/spconv/tree/v1.2.1) is not supported anymore. Following an unsuccessfull effort to restructure the weights, Cylinder3D was retrained on SemanticKITTI to produced new Spconv-v2 weights (FP32).
+[Spconv-V2](https://github.com/traveller59/spconv) made major changes to the convolution operation and how weights are read. [Spconv-V1](https://github.com/traveller59/spconv/tree/v1.2.1) is not supported anymore. Following an unsuccessfull effort to restructure the weights, Cylinder3D was retrained on SemanticKITTI to produced new Spconv-v2 weights (FP32). The new spconv version receives continued support and leads to signfificant speedups in training.
 
 This repository is forked from the [original implementation](https://github.com/xinge008/Cylinder3D), with the following major changes:
 - Network code updated to Spconv-V2. Credit here goes to the code by @min2209 in[Issue](https://github.com/xinge008/Cylinder3D/issues/107).
