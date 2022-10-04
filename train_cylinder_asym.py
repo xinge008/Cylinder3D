@@ -47,7 +47,8 @@ def main(args):
 
     model_load_path = train_hypers['model_load_path']
     model_save_path = train_hypers['model_save_path']
-
+    wd = train_hypers['weight_decay]      # weight decay
+    amp = train_hypers['mixed_fp16']
     SemKITTI_label_name = get_SemKITTI_label_name(dataset_config["label_mapping"])
     unique_label = np.asarray(sorted(list(SemKITTI_label_name.keys())))[1:] - 1
     unique_label_str = [SemKITTI_label_name[x] for x in unique_label + 1]
@@ -57,7 +58,11 @@ def main(args):
         my_model = load_checkpoint(model_load_path, my_model)
 
     my_model.to(pytorch_device)
-    optimizer = optim.AdamW(my_model.parameters(), lr=train_hypers["learning_rate"])        # AdamW contains weight decay
+
+    # Mixed Precision
+    amp_scaler = torch.cuda.amp.GradScaler(enabled=amp)
+    # EPS is a fixed value to prevent MixedPrecision training errors.
+    optimizer = optim.AdamW(my_model.parameters(), lr=train_hypers["learning_rate"], eps=1e-4, weight_decay=wd)
     scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, train_hypers['max_num_epochs'])
 
     loss_func, lovasz_softmax = loss_builder.build(wce=True, lovasz=True,
@@ -134,11 +139,13 @@ def main(args):
             point_label_tensor = train_vox_label.type(torch.LongTensor).to(pytorch_device)
 
             # forward + backward + optimize
-            outputs = my_model(train_pt_fea_ten, train_vox_ten, train_batch_size)
-            loss = lovasz_softmax(torch.nn.functional.softmax(outputs), point_label_tensor, ignore=0) + loss_func(
-                outputs, point_label_tensor)
-            loss.backward()
-            optimizer.step()
+            with torch.cuda.amp.autocast(enabled=amp):
+                outputs = my_model(train_pt_fea_ten, train_vox_ten, train_batch_size)
+                loss = lovasz_softmax(torch.nn.functional.softmax(outputs), point_label_tensor, ignore=0) + loss_func(
+                    outputs, point_label_tensor)
+            amp_scaler.scale(loss).backward()
+            amp_scaler.step(optimizer)
+            amp_scaler.update()
             # optimizer.step()
 
             loss_list.append(loss.item())
