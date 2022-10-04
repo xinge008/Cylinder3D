@@ -8,7 +8,7 @@ This repository is forked from the [original implementation](https://github.com/
 
 [Spconv-V2](https://github.com/traveller59/spconv) made major changes to the convolution operation and how weights are read. [Spconv-V1](https://github.com/traveller59/spconv/tree/v1.2.1) is not supported anymore. Following an unsuccessfull effort to restructure the weights, Cylinder3D was retrained on SemanticKITTI to produced new Spconv-v2 weights.
 
-Note: the version released publicly by the authors is from their [first paper](https://arxiv.org/pdf/2008.01550.pdf) and does not include the pointwise refinement module or weighted cross entropy. The CVPR version has not been made publically available. The mIOU of the retrained Spconv2 Version is 63.5, compared to 64.3 mIOU in page 7 in the paper. The original implementation does not contain manual seeding. To achieve the 63.2 mIOU result, the training regimen had to be changed slightly, as the Paper results could not be reproduced (See Training).
+Note: the version released publicly by the authors is from their [first paper](https://arxiv.org/pdf/2008.01550.pdf) and does not include the pointwise refinement module or weighted cross entropy. The CVPR version has not been made publically available. The mIOU of the retrained Spconv2 Version is 63.2, compared to 64.3 mIOU in page 7 in the paper. The original implementation does not contain manual seeding. To achieve the 63.2 mIOU result, the training regimen had to be changed slightly, as the Paper results could not be reproduced (See Training).
 
 ## Improvements
 - Network code updated to Spconv-v2.1.x Credit here goes to the code by @min2209 in [Issue](https://github.com/xinge008/Cylinder3D/issues/107).
