@@ -66,3 +66,5 @@ train_params:
   max_num_epochs: 40
   eval_every_n_steps: 4599
   learning_rate: 0.001
+  weight_decay: 0.001
+  mixed_fp16: True
