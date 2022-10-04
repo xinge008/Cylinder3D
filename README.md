@@ -32,7 +32,7 @@ Weights are trained according to the original Cylinder3D, and not according to k
 
 ### Training
 - 40 epochs
-- 0.00707 base LR with sqrt_k scaling rule (equals to original 0.001 at batchsize = 2)
+- 0.00707 base LR with sqrt_k scaling rule (equals to original 0.001 at batchsize = 2, equals 0.00489 at batchsize = 24)
 - AdamW with Weight Decay 0.001
 - CosineDecay Schedule
 - Batch Size 24 (Better result possible with lower batch size, batch size chosen for economical reasons.)
