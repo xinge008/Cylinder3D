@@ -47,7 +47,7 @@ def main(args):
 
     model_load_path = train_hypers['model_load_path']
     model_save_path = train_hypers['model_save_path']
-    wd = train_hypers['weight_decay]      # weight decay
+    wd = train_hypers['weight_decay']      # weight decay
     amp = train_hypers['mixed_fp16']
     SemKITTI_label_name = get_SemKITTI_label_name(dataset_config["label_mapping"])
     unique_label = np.asarray(sorted(list(SemKITTI_label_name.keys())))[1:] - 1
