@@ -38,16 +38,18 @@ Weights are trained according to the original Cylinder3D, and not according to k
 - Batch Size 24 (Better result possible with lower batch size, batch size chosen for economical reasons.)
 
 ### Requirements
+Also tested with CUDA 11.3, just "downgrade" pytorch, spconv and torch-scatter.
+
 Tested on Ubuntu 20.04 LTS. Recommend pip install over conda install.
 - Python 3.8
-- PyTorch == 1.11.0
+- PyTorch == 1.12.1 --extra-index-url https://download.pytorch.org/whl/cu116
 - yaml == 6.0
 - strictyaml == 1.6.1
 - Cython == 0.29.30
 - tqdm == 4.64.0
-- [torch-scatter](https://github.com/rusty1s/pytorch_scatter) == cu113
+- [torch-scatter](https://github.com/rusty1s/pytorch_scatter) == cu116
 - [nuScenes-devkit](https://github.com/nutonomy/nuscenes-devkit) (optional for nuScenes)
-- [spconv-cu113 == 2.1.22](https://github.com/traveller59/spconv) (different CUDA versions available)
+- [spconv-cu117 == 2.2.3](https://github.com/traveller59/spconv) (different CUDA versions available)
 - numba == 0.55.2 (install last, as this will likely downgrade your numpy version automatically)
 
 ## Data Preparation
