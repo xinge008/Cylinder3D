@@ -61,7 +61,9 @@ train_params = Map(
         "checkpoint_every_n_steps": Int(),
         "max_num_epochs": Int(),
         "eval_every_n_steps": Int(),
-        "learning_rate": Float()
+        "learning_rate": Float(),
+        "weight_decay": Float(),
+        "mixed_fp16": Bool()
      }
 )
 
