@@ -1,7 +1,7 @@
 ## TODO
 - [X] Fix issue in converted network (see below)
 - [X] Test with Cuda 11.6/11.7 support
-- [X] [Spconv 2.2](https://github.com/traveller59/spconv) (FP32 disabled by default, Mixed Precision should now be on for training)
+- [X] [Spconv 2.2](https://github.com/traveller59/spconv) (FP32 disabled by default, see their instructions on how to enable FP32 if necessary.)
 
 ## Description
 This repository is forked from the [original implementation](https://github.com/xinge008/Cylinder3D). This repositiory was created to encourage continued research and provide a significantly faster implementation.
