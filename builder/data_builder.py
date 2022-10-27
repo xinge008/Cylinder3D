@@ -57,11 +57,13 @@ def build(dataset_config,
                                                        batch_size=train_dataloader_config["batch_size"],
                                                        collate_fn=collate_fn_BEV,
                                                        shuffle=train_dataloader_config["shuffle"],
-                                                       num_workers=train_dataloader_config["num_workers"])
+                                                       num_workers=train_dataloader_config["num_workers"],
+                                                       drop_last = True)
     val_dataset_loader = torch.utils.data.DataLoader(dataset=val_dataset,
                                                      batch_size=val_dataloader_config["batch_size"],
                                                      collate_fn=collate_fn_BEV,
                                                      shuffle=val_dataloader_config["shuffle"],
-                                                     num_workers=val_dataloader_config["num_workers"])
+                                                     num_workers=val_dataloader_config["num_workers"],
+                                                     drop_last = True)
 
     return train_dataset_loader, val_dataset_loader

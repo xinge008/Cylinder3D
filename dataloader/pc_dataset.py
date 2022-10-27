@@ -125,7 +125,7 @@ class SemKITTI_nusc(data.Dataset):
 
     def __getitem__(self, index):
         info = self.nusc_infos[index]
-        lidar_path = info['lidar_path'][16:]
+        lidar_path = info['lidar_path']
         lidar_sd_token = self.nusc.get('sample', info['token'])['data']['LIDAR_TOP']
         lidarseg_labels_filename = os.path.join(self.nusc.dataroot,
                                                 self.nusc.get('lidarseg', lidar_sd_token)['filename'])

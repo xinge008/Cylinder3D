@@ -42,7 +42,7 @@ dataset_params:
 ## Data_loader options
 train_data_loader:
   data_path: "/data/dataset/nuScenes/"
-  imageset: "/data/dataset/nuScenes/nuscenes_infos_train.pkl"
+  imageset: "/data/dataset/nuScenes/infos_train.pkl"
   return_ref: True
   batch_size: 2
   shuffle: True
@@ -50,7 +50,7 @@ train_data_loader:
 
 val_data_loader:
   data_path: "/data/dataset/nuScenes/"
-  imageset: "/data/dataset/nuScenes/nuscenes_infos_val.pkl"
+  imageset: "/data/dataset/nuScenes/infos_val.pkl"
   return_ref: True
   batch_size: 1
   shuffle: False
