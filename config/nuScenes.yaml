@@ -61,7 +61,7 @@ val_data_loader:
 ## Train params
 train_params:
   model_load_path: "./model_load_dir_nuscenes/model_load.pt"
-  model_save_path: "./model_save_dir_nuscenes/model_save.pt"
+  model_save_path: "/content/drive/MyDrive/DCLV_1811455/mini_nuScenes/trainedmodel_save.pt"
   checkpoint_every_n_steps: 4599
   max_num_epochs: 40
   eval_every_n_steps: 4599
