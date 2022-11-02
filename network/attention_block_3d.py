@@ -19,7 +19,7 @@ class AttentionBlock(nn.Module):
         )
 
         self.W_x = nn.Sequential(
-            conv1x1(F_l, n_coefficients, kernel_size=1, stride=1, padding=0, bias=True),
+            conv1x1(F_l, n_coefficients, kernel_size=1, stride=2, padding=0, bias=True),
             nn.BatchNorm1d(n_coefficients)
         )
 
