@@ -160,6 +160,206 @@ class ResBlock(nn.Module):
         else:
             return resA
 
+class Attention_Block_Test(nn.Module):
+    def __init__(self, gating_features, shortcut_features, n_coefficients, kernel_size, indice_key = None, up_key = None):
+        super(Attention_Block_Test, self).__init__()
+
+        # shortcut block 
+        self.shortcut_block = spconv.SparseSequential(
+            spconv.SparseConv3d(shortcut_features, n_coefficients, 3, stride = 2, padding = 1, indice_key= indice_key + 'shortcut_sparse'),
+            nn.BatchNorm1d(n_coefficients),
+            nn.LeakyReLU(),
+        )
+        
+        # gating_signal block
+        self.gating_block = spconv.SparseSequential(
+            spconv.SparseConv3d(gating_features, n_coefficients, 3, stride = 1, padding = 1, indice_key= indice_key + 'gating_sparse'),
+            nn.BatchNorm1d(n_coefficients),
+            nn.LeakyReLU(),
+            spconv.SparseInverseConv3d(n_coefficients, n_coefficients, kernel_size= 3, indice_key = indice_key + 'shortcut_sparse'),
+            nn.BatchNorm1d(n_coefficients),
+            nn.LeakyReLU(),
+        )
+
+        # sum block
+        self.sum_block = spconv.SparseSequential(
+            conv3x3(n_coefficients, 1, stride= 1, indice_key= indice_key + 'sum_subm'),
+            nn.BatchNorm1d(1),
+            nn.LeakyReLU(),
+            spconv.SparseInverseConv3d(1, shortcut_features, kernel_size= 3, indice_key= up_key),
+            nn.BatchNorm1d(shortcut_features),
+            nn.Sigmoid(),
+        )
+
+    def forward(self, shortcut, gating):
+
+        phi_g = self.shortcut_block(shortcut)
+
+        theta_x = self.gating_block(gating)
+
+        sum_up = phi_g.replace_features(phi_g.features + theta_x.features)
+
+        sum_up = self.sum_block(sum_up)
+
+        return sum_up
+
+class Attention_Gate(nn.Module):
+
+    def __init__(self, gating_features, shortcut_features, n_coefficients, kernel_size, indice_key = None, up_key = None):
+        super(Attention_Gate, self).__init__()
+
+        self.shortcut_conv = spconv.SparseConv3d(shortcut_features, n_coefficients, kernel_size= 3, stride = 2, padding = 1, indice_key= indice_key + 'shortcut_sparse')
+        self.shortcut_bn = nn.BatchNorm1d(n_coefficients)
+        self.shortcut_act = nn.LeakyReLU()
+
+        self.gate_conv = spconv.SparseConv3d(gating_features, n_coefficients, kernel_size= 3, stride = 1, padding = 1, indice_key= indice_key + 'gate_sparse')
+        self.gate_bn = nn.BatchNorm1d(n_coefficients)
+        self.gate_act = nn.LeakyReLU()
+        self.gate_up = spconv.SparseInverseConv3d(n_coefficients, n_coefficients, kernel_size= 3, indice_key= indice_key + 'shortcut_sparse')
+        self.gate_up_bn = nn.BatchNorm1d(n_coefficients)
+        self.gate_up_act = nn.LeakyReLU()
+
+        self.sum_conv = conv3x3(n_coefficients, 1, stride= 1, indice_key= indice_key + 'sum_conv')
+        self.sum_bn = nn.BatchNorm1d(1)
+        self.sum_act = nn.LeakyReLU()
+        self.up_sum = spconv.SparseInverseConv3d(1, shortcut_features, kernel_size= 3, indice_key= up_key)
+        self.up_sum_bn = nn.BatchNorm1d(shortcut_features)
+        self.up_sum_act = nn.Sigmoid()
+    
+    def forward(self, gate, shortcut):
+        
+        theta_x = self.shortcut_conv(shortcut)
+        theta_x = self.replace_features(self.shortcut_bn(theta_x.features))
+        theta_x = self.replace_features(self.shortcut_act(theta_x.features))
+
+        phi_g = self.gate_conv(gate)
+        phi_g = phi_g.replace_features(self.gate_bn(phi_g.features))
+        phi_g = phi_g.replace_features(self.gate_act(phi_g.features))
+        phi_g = self.gate_up(phi_g)
+        phi_g = phi_g.replace_features(self.gate_up_bn(phi_g.features))
+        phi_g = phi_g.replace_features(self.gate_up_act(phi_g.features))
+
+        big_sum = phi_g.replace_features(phi_g.features + theta_x.features)
+        big_sum = self.sum_conv(big_sum)
+        big_sum = big_sum.replace_features(self.sum_bn(big_sum.features))
+        big_sum = big_sum.replace_features(self.sum_act(big_sum.features))
+        big_sum = self.up_sum(big_sum)
+        big_sum = big_sum.replace_features(self.up_sum_bn(big_sum.features))
+        big_sum = big_sum.replace_features(self.up_sum_act(big_sum.features))
+
+        return big_sum
+
+# class Attention(nn.Module):
+
+#     def __init__(self, gating_features, shortcut_features, n_coefficients, kernel_size, indice_key = None, up_key = None):
+#         super(Attention, self).__init__()
+
+#         # gating signal block
+#         self.gate_conv = conv3x3(gating_features, n_coefficients, stride= 1, indice_key= indice_key + 'gate_subm')
+#         self.gate_act = nn.LeakyReLU()
+#         self.gate_bn = nn.BatchNorm1d(n_coefficients)
+#         self.up_subm = spconv.SparseInverseConv3d(n_coefficients, n_coefficients, kernel_size= 3, indice_key= up_key)
+
+#         # shortcut block
+#         self.shortcut_conv = conv3x3(shortcut_features, n_coefficients, stride= 1, indice_key= indice_key + 'short_subm')
+#         self.shortcut_act = nn.LeakyReLU()
+#         self.shortcut_bn = nn.BatchNorm1d(n_coefficients)
+
+#         # psi block
+#         self.sum_pre_act = nn.LeakyReLU()
+#         self.sum_conv = conv3x3(n_coefficients, 1, stride= 1, indice_key= indice_key + 'sum_subm')
+#         self.sum_act = nn.Sigmoid()
+#         self.sum_bn = nn.BatchNorm1d(1)
+
+#         self.sum_up_subm = spconv.SparseInverseConv3d(1, shortcut_features, kernel_size= 3, indice_key= indice_key + 'sum_subm')
+
+#     def forward(self, gating, shortcut):
+#         phi_g = self.gate_conv(gating)
+#         phi_g = phi_g.replace_features(self.gate_act(phi_g.features))
+#         phi_g = phi_g.replace_features(self.gate_bn(phi_g.features))
+#         phi_g = self.up_subm(phi_g)
+
+#         pass
+
+# class Attention_Block(nn.Module):
+
+#     def __init__(self, gating_features, shortcut_features, n_coefficients, kernel_size, indice_key = None, up_key = None):
+#         super(Attention_Block, self).__init__()
+
+#         # gating signal block
+#         self.gate_conv = conv1x1(gating_features, n_coefficients, stride= 1, indice_key= 'gate_subm')
+#         self.gate_bn0 = nn.BatchNorm1d(n_coefficients)
+#         self.gate_act0 = nn.ReLU()
+#         self.gate_pool = spconv.SparseConv3d(n_coefficients, n_coefficients, kernel_size= (1, 1, 1), stride= 1, indice_key= 'gate_pool')
+#         self.gate_bn1 = nn.BatchNorm1d(n_coefficients)
+#         self.gate_act1 = nn.ReLU()
+
+#         # shortcut block
+#         self.shortcut_conv = conv1x1(shortcut_features, n_coefficients, stride= 1, indice_key= 'shortcut_subm')
+#         self.shortcut_bn0 = nn.BatchNorm1d(n_coefficients)
+#         self.shortcut_act0 = nn.ReLU()
+#         self.shortcut_pool = spconv.SparseConv3d(n_coefficients, n_coefficients, kernel_size= (3, 3, 3), stride= 2, indice_key= 'shortcut_pool')
+#         self.shortcut_bn1 = nn.BatchNorm1d(n_coefficients)
+#         self.shortcut_act1 = nn.ReLU()
+
+#         # concatenate block
+#         self.concat_pre_act = nn.ReLU()
+#         self.concat_conv = conv1x1(n_coefficients, 1, stride= 1, indice_key= 'concat_subm')
+#         self.concat_bn0 = nn.BatchNorm1d(1)
+#         self.concat_act0 = nn.Sigmoid()
+#         self.concat_pool = spconv.SparseConv3d(1, 1, kernel_size= 3, stride= 2, padding= 1, indice_key= 'concat_pool')
+#         self.concat_bn1 = nn.BatchNorm1d(1)
+#         self.concat_act1 = nn.Sigmoid()
+
+#         #up sampling block
+#         self.concat_inv_conv = spconv.SparseInverseConv3d(1, shortcut_features, kernel_size= 3, indice_key= 'concat_pool')
+
+# class AttentionBlock(nn.Module):
+#     def __init__(self, gating_features, shortcut_features, n_coefficients, kernel_size= (1, 1, 1), indice_key= None, up_key = None):
+#         super(AttentionBlock, self).__init__()
+#         # gating signal block
+#         self.up_subm = spconv.SparseInverseConv3d(gating_features, n_coefficients, kernel_size= 3, bias= False, indice_key = up_key)
+#         self.gate_conv = conv1x1(n_coefficients, n_coefficients, stride = 1, indice_key=indice_key + 'gc0')
+#         # self.gate_sparse = spconv.SparseConv3d(n_coefficients, n_coefficients, kernel_size= 3, stride = 1, padding=1, indice_key = 'cc0')
+#         self.gate_bn = nn.BatchNorm1d(n_coefficients)
+#         self.gate_act = nn.ReLU()
+#         # shortcut block
+#         self.shortcut_conv = conv1x1(shortcut_features, n_coefficients, stride = 2, indice_key= indice_key + 'sc0')
+#         self.shortcut_bn = nn.BatchNorm1d(n_coefficients)
+#         self.shortcut_act = nn.ReLU()
+
+#         # psi block
+#         self.concat_pre_act = nn.ReLU()
+#         self.concat_conv = conv1x1(n_coefficients, 1, stride = 1, indice_key = indice_key + 'cc0')
+#         self.concat_bn = nn.BatchNorm1d(1)
+#         self.concat_act = nn.Sigmoid()
+
+#         # up_sample block
+#         self.concat_inv_conv = spconv.SparseInverseConv3d(1, shortcut_features, kernel_size= 3, indice_key= 'cc0')
+
+#     def forward(self, g, x):
+#         phi_g = self.up_subm(phi_g)
+#         # phi_g = self.gate_sparse(phi_g)
+#         import pdb
+#         pdb.set_trace()
+#         phi_g = self.gate_conv(g)
+#         phi_g = phi_g.replace_feature(self.gate_bn(phi_g.features))
+#         phi_g = phi_g.replace_feature(self.gate_act(phi_g.features))
+
+#         theta_x = self.shortcut_conv(x)
+#         theta_x = theta_x.replace_feature(self.shortcut_bn(theta_x.features))
+#         theta_x = theta_x.replace_feature(self.shortcut_act(theta_x.features))
+
+#         concat = phi_g.replace_feature(phi_g.features + theta_x.features)
+#         concat = concat.replace_feature(self.concat_pre_act(concat.features))
+
+#         concat = self.concat_conv(concat)
+#         concat = concat.replace_feature(self.concat_bn(concat.features))
+#         concat = concat.replace_feature(self.concat_act(concat.features))
+
+#         up_sample = self.concat_inv_conv(concat)
+#         y = up_sample.replace_feature(x.features * up_sample.features)
+#         return y
 
 class UpBlock(nn.Module):
     def __init__(self, in_filters, out_filters, kernel_size=(3, 3, 3), indice_key=None, up_key=None):
@@ -277,6 +477,11 @@ class Asymm_3d_spconv(nn.Module):
         self.resBlock5 = ResBlock(8 * init_size, 16 * init_size, 0.2, pooling=True, height_pooling=False,
                                   indice_key="down5")
 
+        self.AG0 = Attention_Gate(16 * init_size, 8 * init_size, indice_key = "AG0", up_key = 'down4')
+        self.AG1 = Attention_Gate(8 * init_size, 4 * init_size, indice_key = "AG1", up_key = 'down3')
+        self.AG2 = Attention_Gate(4 * init_size, 2 * init_size, indice_key = "AG2", up_key = 'down2')
+
+
         self.upBlock0 = UpBlock(16 * init_size, 16 * init_size, indice_key="up0", up_key="down5")
         self.upBlock1 = UpBlock(16 * init_size, 8 * init_size, indice_key="up1", up_key="down4")
         self.upBlock2 = UpBlock(8 * init_size, 4 * init_size, indice_key="up2", up_key="down3")
@@ -301,8 +506,12 @@ class Asymm_3d_spconv(nn.Module):
         down4c, down4b = self.resBlock5(down3c)
 
         up4e = self.upBlock0(down4c, down4b)
+        #a4e = self.AttentionBlock1(up4e, down3b)
+        #up3e = self.upBlock1(up4e, a4e)
         up3e = self.upBlock1(up4e, down3b)
+        #a3e = 
         up2e = self.upBlock2(up3e, down2b)
+        #a2e = 
         up1e = self.upBlock3(up2e, down1b)
 
         up0e = self.ReconNet(up1e)
