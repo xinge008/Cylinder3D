@@ -24,7 +24,7 @@ def build(dataset_config,
     nusc=None
     if "nusc" in dataset_config['pc_dataset_type']:
         from nuscenes import NuScenes
-        nusc = NuScenes(version='v1.0-trainval', dataroot=data_path, verbose=True)
+        nusc = NuScenes(version='v1.0-mini', dataroot=data_path, verbose=True)
 
     train_pt_dataset = SemKITTI(data_path, imageset=train_imageset,
                                 return_ref=train_ref, label_mapping=label_mapping, nusc=nusc)
@@ -57,11 +57,13 @@ def build(dataset_config,
                                                        batch_size=train_dataloader_config["batch_size"],
                                                        collate_fn=collate_fn_BEV,
                                                        shuffle=train_dataloader_config["shuffle"],
-                                                       num_workers=train_dataloader_config["num_workers"])
+                                                       num_workers=train_dataloader_config["num_workers"],
+                                                       drop_last = True)
     val_dataset_loader = torch.utils.data.DataLoader(dataset=val_dataset,
                                                      batch_size=val_dataloader_config["batch_size"],
                                                      collate_fn=collate_fn_BEV,
                                                      shuffle=val_dataloader_config["shuffle"],
-                                                     num_workers=val_dataloader_config["num_workers"])
+                                                     num_workers=val_dataloader_config["num_workers"],
+                                                     drop_last = True)
 
     return train_dataset_loader, val_dataset_loader
