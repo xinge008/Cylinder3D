@@ -1,3 +1,6 @@
+## Spconv
+Currently some issues can occur with newer versions of Spconv. Version 2.2.3 or lower recommended.
+
 ## TODO
 - [X] Fix issue in converted network (see below)
 - [X] Test with Cuda 11.6/11.7 support
@@ -17,7 +20,7 @@ Note: the version released publicly by the authors is from their [first paper](h
 
 It is likely that further improvements can be made with a more careful choice of hyperparameters when training.
 
-### Issue
+### Issus
 Fixed Typo in converted model. Weights are updated.
 ```
 reaA = resA.replace_feature(self.bn1(resA.features)) should be: resA = resA.replace_feature(self.bn1(resA.features))
