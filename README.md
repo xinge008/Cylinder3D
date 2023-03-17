@@ -3,7 +3,7 @@ Currently some issues can occur with newer versions of Spconv. Version 2.2.3 or 
 
 ## TODO
 - [ ] PyTorch 2.0 support
-- [ ] Removal of torch-scatter for PyTorch native implementation (package functionalities was integrated into PyTorch as .scatter_reduce_)
+- [ ] Removal of torch-scatter for PyTorch native implementation (package functionalities were integrated into PyTorch as .scatter_reduce_)
 - [X] Fix issue in converted network (see below)
 - [X] Test with Cuda 11.6/11.7 support
 - [X] [Spconv 2.2](https://github.com/traveller59/spconv) (FP32 disabled by default, see their instructions on how to enable FP32 if necessary.)
