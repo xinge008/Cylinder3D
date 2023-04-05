@@ -1,5 +1,5 @@
 ## Spconv
-Currently some issues can occur with newer versions of Spconv. Version 2.2.3 or lower recommended.
+Some issues can occur with newer versions of Spconv 2.x. If you get an error, that precompiled functions are not found, make sure you do not have duplicates of the package cumm-[cuda version]. If issues persists, spconv version 2.2.3 or lower is recommended.
 
 ## TODO
 - [ ] PyTorch 2.0 support
